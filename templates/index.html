@@ -3,100 +3,174 @@
 {% block title %}Welcome - Quiz System{% endblock %}
 
 {% block content %}
-<div class="hero-section">
+<!-- Hero Section -->
+<div class="hero-section bg-gradient-primary">
     <div class="container">
-        <div class="row align-items-center min-vh-100">
-            <div class="col-lg-6">
-                <div class="hero-content">
-                    <h1 class="display-4 fw-bold text-white mb-4">
-                        Welcome to Quiz System
+        <div class="row align-items-center min-vh-100 py-5">
+            <div class="col-lg-6 col-md-12 mb-5 mb-lg-0">
+                <div class="hero-content animate-in">
+                    <div class="hero-badge mb-4">
+                        <span class="badge bg-light text-dark px-3 py-2 rounded-pill">
+                            <i class="fas fa-star text-warning me-2"></i>
+                            Modern Quiz Platform
+                        </span>
+                    </div>
+                    
+                    <h1 class="display-4 fw-bold text-white mb-4 hero-title">
+                        Master Your Knowledge with 
+                        <span class="text-gradient-light">Smart Quizzes</span>
                     </h1>
-                    <p class="lead text-white mb-4">
-                        Test your knowledge with our comprehensive quiz platform. 
-                        Create, take, and track quizzes with ease.
+                    
+                    <p class="lead text-white-75 mb-4 fs-5">
+                        Experience the next generation of online learning with our intelligent quiz system. 
+                        Track progress, compete with others, and achieve your learning goals.
                     </p>
                     
-                    <div class="hero-features mb-4">
+                    <div class="hero-features mb-5">
                         <div class="row g-3">
-                            <div class="col-md-6">
-                                <div class="feature-item text-white">
-                                    <i class="fas fa-clock text-warning me-2"></i>
-                                    <span>Timed Quizzes</span>
+                            <div class="col-sm-6">
+                                <div class="feature-item d-flex align-items-center text-white">
+                                    <div class="feature-icon-sm bg-white bg-opacity-20 rounded-circle p-2 me-3">
+                                        <i class="fas fa-clock text-white"></i>
+                                    </div>
+                                    <span class="fw-medium">Real-time Timer</span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="feature-item text-white">
-                                    <i class="fas fa-chart-line text-warning me-2"></i>
-                                    <span>Progress Tracking</span>
+                            <div class="col-sm-6">
+                                <div class="feature-item d-flex align-items-center text-white">
+                                    <div class="feature-icon-sm bg-white bg-opacity-20 rounded-circle p-2 me-3">
+                                        <i class="fas fa-chart-line text-white"></i>
+                                    </div>
+                                    <span class="fw-medium">Progress Analytics</span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="feature-item text-white">
-                                    <i class="fas fa-users text-warning me-2"></i>
-                                    <span>User Management</span>
+                            <div class="col-sm-6">
+                                <div class="feature-item d-flex align-items-center text-white">
+                                    <div class="feature-icon-sm bg-white bg-opacity-20 rounded-circle p-2 me-3">
+                                        <i class="fas fa-shield-alt text-white"></i>
+                                    </div>
+                                    <span class="fw-medium">Secure Platform</span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="feature-item text-white">
-                                    <i class="fas fa-mobile-alt text-warning me-2"></i>
-                                    <span>Mobile Friendly</span>
+                            <div class="col-sm-6">
+                                <div class="feature-item d-flex align-items-center text-white">
+                                    <div class="feature-icon-sm bg-white bg-opacity-20 rounded-circle p-2 me-3">
+                                        <i class="fas fa-mobile-alt text-white"></i>
+                                    </div>
+                                    <span class="fw-medium">Mobile Ready</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="hero-actions">
-                        <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg me-3">
-                            <i class="fas fa-user-plus me-2"></i>Get Started
+                    <div class="hero-actions d-flex flex-column flex-sm-row gap-3">
+                        <a href="{{ url_for('auth.register') }}" class="btn btn-light btn-lg shadow-sm px-4 py-3">
+                            <i class="fas fa-rocket me-2"></i>Start Learning Now
                         </a>
-                        <a href="{{ url_for('auth.login') }}" class="btn btn-outline-primary btn-lg">
-                            <i class="fas fa-sign-in-alt me-2"></i>Login
+                        <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light btn-lg px-4 py-3">
+                            <i class="fas fa-sign-in-alt me-2"></i>Sign In
                         </a>
+                    </div>
+                    
+                    <div class="hero-stats mt-5 pt-4 border-top border-white border-opacity-25">
+                        <div class="row text-center text-sm-start">
+                            <div class="col-4">
+                                <div class="stat-item text-white">
+                                    <h3 class="fw-bold mb-0">500+</h3>
+                                    <small class="text-white-75">Active Users</small>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-item text-white">
+                                    <h3 class="fw-bold mb-0">1K+</h3>
+                                    <small class="text-white-75">Quizzes Taken</small>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-item text-white">
+                                    <h3 class="fw-bold mb-0">95%</h3>
+                                    <small class="text-white-75">Success Rate</small>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <div class="col-lg-6">
-                <div class="hero-image text-center">
-                    <div class="quiz-preview-card">
-                        <div class="card shadow-lg border-0">
-                            <div class="card-header bg-primary text-white">
-                                <h5 class="mb-0">
-                                    <i class="fas fa-question-circle me-2"></i>
-                                    Sample Quiz
-                                </h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="quiz-question mb-3">
-                                    <h6>Question 1 of 5</h6>
-                                    <p class="mb-3">What is the capital of France?</p>
-                                    <div class="quiz-options">
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input" type="radio" name="demo" disabled>
-                                            <label class="form-check-label">Paris</label>
-                                        </div>
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input" type="radio" name="demo" disabled>
-                                            <label class="form-check-label">London</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="demo" disabled>
-                                            <label class="form-check-label">Berlin</label>
-                                        </div>
-                                    </div>
-                                </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="hero-visual text-center position-relative">
+                    <div class="quiz-mockup animate-scale">
+                        <div class="card shadow-lg border-0 quiz-card-demo">
+                            <div class="card-header bg-primary text-white border-0">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <div class="timer-demo">
-                                        <i class="fas fa-clock text-warning me-1"></i>
-                                        <span class="text-muted">15:30</span>
+                                    <h5 class="mb-0 fw-bold">
+                                        <i class="fas fa-brain me-2"></i>
+                                        Knowledge Challenge
+                                    </h5>
+                                    <span class="badge bg-light text-primary">Demo</span>
+                                </div>
+                            </div>
+                            <div class="card-body p-4">
+                                <div class="quiz-progress mb-4">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="fw-medium text-muted">Question 2 of 10</span>
+                                        <span class="badge bg-primary">5 pts</span>
                                     </div>
-                                    <div class="progress-demo" style="width: 100px;">
-                                        <div class="progress">
-                                            <div class="progress-bar" style="width: 20%"></div>
+                                    <div class="progress mb-3" style="height: 8px;">
+                                        <div class="progress-bar bg-gradient-primary" style="width: 20%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="quiz-question mb-4">
+                                    <h6 class="fw-bold mb-3">Which programming language is known for its simplicity and readability?</h6>
+                                    <div class="quiz-options">
+                                        <div class="form-check mb-3 option-demo">
+                                            <input class="form-check-input" type="radio" name="demo" disabled>
+                                            <label class="form-check-label fw-medium">JavaScript</label>
+                                        </div>
+                                        <div class="form-check mb-3 option-demo option-selected">
+                                            <input class="form-check-input" type="radio" name="demo" checked disabled>
+                                            <label class="form-check-label fw-medium">Python</label>
+                                        </div>
+                                        <div class="form-check mb-3 option-demo">
+                                            <input class="form-check-input" type="radio" name="demo" disabled>
+                                            <label class="form-check-label fw-medium">C++</label>
+                                        </div>
+                                        <div class="form-check option-demo">
+                                            <input class="form-check-input" type="radio" name="demo" disabled>
+                                            <label class="form-check-label fw-medium">Assembly</label>
                                         </div>
                                     </div>
                                 </div>
+                                
+                                <div class="quiz-footer d-flex justify-content-between align-items-center">
+                                    <div class="timer-display">
+                                        <i class="fas fa-clock text-warning me-2"></i>
+                                        <span class="fw-bold text-warning">14:35</span>
+                                    </div>
+                                    <div class="quiz-actions">
+                                        <button class="btn btn-outline-primary btn-sm me-2" disabled>
+                                            <i class="fas fa-arrow-left"></i>
+                                        </button>
+                                        <button class="btn btn-primary btn-sm" disabled>
+                                            Next <i class="fas fa-arrow-right ms-1"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Floating Elements -->
+                    <div class="floating-elements">
+                        <div class="floating-icon floating-icon-1">
+                            <i class="fas fa-trophy text-warning"></i>
+                        </div>
+                        <div class="floating-icon floating-icon-2">
+                            <i class="fas fa-star text-info"></i>
+                        </div>
+                        <div class="floating-icon floating-icon-3">
+                            <i class="fas fa-medal text-success"></i>
                         </div>
                     </div>
                 </div>
@@ -106,59 +180,133 @@
 </div>
 
 <!-- Features Section -->
-<section class="py-5 bg-light">
+<section class="features-section py-5 bg-light">
     <div class="container">
         <div class="row text-center mb-5">
-            <div class="col-lg-6 mx-auto">
-                <h2 class="display-6 fw-bold">Why Choose Our Quiz System?</h2>
-                <p class="text-muted">Powerful features designed for both educators and learners</p>
+            <div class="col-lg-8 mx-auto">
+                <h2 class="display-5 fw-bold mb-3">Powerful Features for Modern Learning</h2>
+                <p class="lead text-muted">Everything you need to create, manage, and excel in your learning journey</p>
             </div>
         </div>
         
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card border-0 h-100 text-center">
-                    <div class="card-body">
-                        <div class="feature-icon mb-3">
-                            <i class="fas fa-bolt fa-3x text-primary"></i>
+        <div class="row g-4 mb-5">
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card card border-0 h-100 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon-lg mb-4">
+                            <div class="icon-circle bg-primary bg-opacity-10 d-inline-flex align-items-center justify-content-center">
+                                <i class="fas fa-bolt fa-2x text-primary"></i>
+                            </div>
                         </div>
-                        <h5 class="card-title">Fast & Reliable</h5>
-                        <p class="card-text text-muted">
-                            Lightning-fast performance with auto-save functionality
-                            to ensure no progress is lost.
+                        <h5 class="card-title fw-bold mb-3">Lightning Fast</h5>
+                        <p class="card-text text-muted mb-0">
+                            Experience blazing-fast performance with real-time auto-save 
+                            and instant feedback on your quiz attempts.
                         </p>
                     </div>
                 </div>
             </div>
             
-            <div class="col-md-4">
-                <div class="card border-0 h-100 text-center">
-                    <div class="card-body">
-                        <div class="feature-icon mb-3">
-                            <i class="fas fa-shield-alt fa-3x text-primary"></i>
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card card border-0 h-100 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon-lg mb-4">
+                            <div class="icon-circle bg-success bg-opacity-10 d-inline-flex align-items-center justify-content-center">
+                                <i class="fas fa-shield-alt fa-2x text-success"></i>
+                            </div>
                         </div>
-                        <h5 class="card-title">Secure</h5>
-                        <p class="card-text text-muted">
-                            Built with security best practices including encrypted
-                            passwords and CSRF protection.
+                        <h5 class="card-title fw-bold mb-3">Bank-Level Security</h5>
+                        <p class="card-text text-muted mb-0">
+                            Your data is protected with enterprise-grade security, 
+                            encrypted storage, and secure authentication.
                         </p>
                     </div>
                 </div>
             </div>
             
-            <div class="col-md-4">
-                <div class="card border-0 h-100 text-center">
-                    <div class="card-body">
-                        <div class="feature-icon mb-3">
-                            <i class="fas fa-cogs fa-3x text-primary"></i>
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card card border-0 h-100 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon-lg mb-4">
+                            <div class="icon-circle bg-info bg-opacity-10 d-inline-flex align-items-center justify-content-center">
+                                <i class="fas fa-chart-line fa-2x text-info"></i>
+                            </div>
                         </div>
-                        <h5 class="card-title">Easy to Use</h5>
-                        <p class="card-text text-muted">
-                            Intuitive interface that makes creating and taking
-                            quizzes a breeze for everyone.
+                        <h5 class="card-title fw-bold mb-3">Smart Analytics</h5>
+                        <p class="card-text text-muted mb-0">
+                            Track your progress with detailed analytics, performance 
+                            insights, and personalized learning recommendations.
                         </p>
                     </div>
                 </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card card border-0 h-100 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon-lg mb-4">
+                            <div class="icon-circle bg-warning bg-opacity-10 d-inline-flex align-items-center justify-content-center">
+                                <i class="fas fa-users fa-2x text-warning"></i>
+                            </div>
+                        </div>
+                        <h5 class="card-title fw-bold mb-3">Team Management</h5>
+                        <p class="card-text text-muted mb-0">
+                            Manage users, create groups, assign quizzes, and monitor 
+                            team performance from a centralized dashboard.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card card border-0 h-100 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon-lg mb-4">
+                            <div class="icon-circle bg-danger bg-opacity-10 d-inline-flex align-items-center justify-content-center">
+                                <i class="fas fa-mobile-alt fa-2x text-danger"></i>
+                            </div>
+                        </div>
+                        <h5 class="card-title fw-bold mb-3">Mobile First</h5>
+                        <p class="card-text text-muted mb-0">
+                            Fully responsive design that works seamlessly across 
+                            all devices - desktop, tablet, and mobile.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card card border-0 h-100 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon-lg mb-4">
+                            <div class="icon-circle bg-purple bg-opacity-10 d-inline-flex align-items-center justify-content-center">
+                                <i class="fas fa-cogs fa-2x text-purple"></i>
+                            </div>
+                        </div>
+                        <h5 class="card-title fw-bold mb-3">Easy Setup</h5>
+                        <p class="card-text text-muted mb-0">
+                            Get started in minutes with our intuitive quiz builder 
+                            and user-friendly interface designed for everyone.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section py-5 bg-dark text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 col-md-12 text-center text-lg-start mb-4 mb-lg-0">
+                <h3 class="fw-bold mb-2">Ready to Start Your Learning Journey?</h3>
+                <p class="mb-0 text-white-75">Join thousands of learners and educators already using our platform</p>
+            </div>
+            <div class="col-lg-4 col-md-12 text-center text-lg-end">
+                <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg px-4 py-3">
+                    <i class="fas fa-rocket me-2"></i>Get Started Free
+                </a>
             </div>
         </div>
     </div>
