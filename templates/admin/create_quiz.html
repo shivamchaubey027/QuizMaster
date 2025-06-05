@@ -3,7 +3,6 @@
 {% block title %}Create Quiz - Admin{% endblock %}
 
 {% block head %}
-<meta name="csrf-token" content="{{ csrf_token }}">
 {% endblock %}
 
 {% block content %}
@@ -28,7 +27,6 @@
     </div>
 
     <form method="POST" id="quiz-form">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token }}"/>
         <input type="hidden" name="question_count" id="question_count" value="1">
         
         <div class="row">

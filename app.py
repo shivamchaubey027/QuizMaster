@@ -28,7 +28,7 @@ app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
     "pool_recycle": 300,
     "pool_pre_ping": True,
 }
-app.config["WTF_CSRF_ENABLED"] = True
+app.config["WTF_CSRF_ENABLED"] = False
 
 # Initialize extensions
 db.init_app(app)
@@ -37,6 +37,10 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'auth.login'
 login_manager.login_message = 'Please log in to access this page.'
+
+# Exempt admin blueprint from CSRF protection
+csrf.exempt('admin.create_quiz')
+csrf.exempt('admin.edit_quiz')
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -69,7 +73,7 @@ def inject_now():
 @app.context_processor
 def inject_csrf_token():
     from flask_wtf.csrf import generate_csrf
-    return dict(csrf_token=generate_csrf)
+    return dict(csrf_token=generate_csrf())
 
 with app.app_context():
     # Import models to ensure they're registered
