@@ -6,7 +6,7 @@
 <meta name="quiz-data" 
       data-attempt-id="{{ attempt.id }}" 
       data-time-remaining="{{ time_remaining }}"
-      data-csrf-token="{{ csrf_token() }}">
+      data-csrf-token="{{ csrf_token }}">
 {% endblock %}
 
 {% block content %}
@@ -206,7 +206,7 @@
                     <i class="fas fa-times me-2"></i>Cancel
                 </button>
                 <form method="POST" action="{{ url_for('quiz.submit_quiz', attempt_id=attempt.id) }}" class="d-inline">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}"/>
                     <button type="submit" class="btn btn-success">
                         <i class="fas fa-check me-2"></i>Yes, Submit
                     </button>
