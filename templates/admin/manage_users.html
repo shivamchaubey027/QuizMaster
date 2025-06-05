@@ -1,0 +1,278 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Users - Admin{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>
+                    <i class="fas fa-users text-primary me-2"></i>
+                    Manage Users
+                </h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item active">Manage Users</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Users Statistics -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <div class="card stat-card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="stat-icon mb-2">
+                        <i class="fas fa-users fa-2x text-primary"></i>
+                    </div>
+                    <h3 class="stat-number">{{ user_stats|length }}</h3>
+                    <p class="stat-label text-muted mb-0">Total Users</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card stat-card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="stat-icon mb-2">
+                        <i class="fas fa-user-check fa-2x text-success"></i>
+                    </div>
+                    <h3 class="stat-number">{{ user_stats|selectattr('completed', 'gt', 0)|list|length }}</h3>
+                    <p class="stat-label text-muted mb-0">Active Users</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card stat-card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="stat-icon mb-2">
+                        <i class="fas fa-chart-line fa-2x text-info"></i>
+                    </div>
+                    <h3 class="stat-number">{{ (user_stats|sum(attribute='avg_score') / user_stats|length if user_stats else 0)|round(1) }}%</h3>
+                    <p class="stat-label text-muted mb-0">Average Score</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Users Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="fas fa-table text-primary me-2"></i>User List
+                        </h5>
+                        <div class="search-box">
+                            <input type="text" class="form-control" id="user-search" placeholder="Search users...">
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% if user_stats %}
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="users-table">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Registration Date</th>
+                                        <th>Quiz Attempts</th>
+                                        <th>Completed</th>
+                                        <th>Average Score</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for stat in user_stats %}
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar-sm bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3">
+                                                        {{ stat.user.username[0].upper() }}
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="mb-1">{{ stat.user.username }}</h6>
+                                                        <small class="text-muted">{{ stat.user.email }}</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <div>{{ stat.user.created_at.strftime('%b %d, %Y') }}</div>
+                                                    <small class="text-muted">{{ stat.user.created_at.strftime('%I:%M %p') }}</small>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-primary">{{ stat.attempts }}</span>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="badge bg-success me-2">{{ stat.completed }}</span>
+                                                    {% if stat.attempts > 0 %}
+                                                        <div class="progress" style="width: 60px; height: 6px;">
+                                                            <div class="progress-bar bg-success" 
+                                                                 style="width: {{ (stat.completed / stat.attempts * 100) }}%"></div>
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                {% if stat.avg_score > 0 %}
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="me-2">{{ stat.avg_score }}%</span>
+                                                        <div class="progress" style="width: 60px; height: 6px;">
+                                                            <div class="progress-bar bg-{% if stat.avg_score >= 70 %}success{% elif stat.avg_score >= 50 %}warning{% else %}danger{% endif %}" 
+                                                                 style="width: {{ stat.avg_score }}%"></div>
+                                                        </div>
+                                                    </div>
+                                                {% else %}
+                                                    <span class="text-muted">No attempts</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="{{ url_for('admin.results', user_id=stat.user.id) }}" 
+                                                       class="btn btn-outline-primary" title="View Results">
+                                                        <i class="fas fa-chart-bar"></i>
+                                                    </a>
+                                                    <button type="button" class="btn btn-outline-info" 
+                                                            title="User Details" data-bs-toggle="modal" 
+                                                            data-bs-target="#userModal{{ stat.user.id }}">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-users fa-4x text-muted mb-4"></i>
+                            <h4 class="text-muted mb-3">No Users Found</h4>
+                            <p class="text-muted mb-0">No student users have registered yet.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- User Detail Modals -->
+{% for stat in user_stats %}
+<div class="modal fade" id="userModal{{ stat.user.id }}" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-user text-primary me-2"></i>
+                    {{ stat.user.username }} - User Details
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Basic Information</h6>
+                        <table class="table table-sm">
+                            <tr>
+                                <td><strong>Username:</strong></td>
+                                <td>{{ stat.user.username }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Email:</strong></td>
+                                <td>{{ stat.user.email }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Registered:</strong></td>
+                                <td>{{ stat.user.created_at.strftime('%B %d, %Y') }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>User Type:</strong></td>
+                                <td>
+                                    <span class="badge bg-primary">Student</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Quiz Statistics</h6>
+                        <table class="table table-sm">
+                            <tr>
+                                <td><strong>Total Attempts:</strong></td>
+                                <td><span class="badge bg-primary">{{ stat.attempts }}</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Completed:</strong></td>
+                                <td><span class="badge bg-success">{{ stat.completed }}</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Average Score:</strong></td>
+                                <td>
+                                    {% if stat.avg_score > 0 %}
+                                        <span class="badge bg-{% if stat.avg_score >= 70 %}success{% elif stat.avg_score >= 50 %}warning{% else %}danger{% endif %}">
+                                            {{ stat.avg_score }}%
+                                        </span>
+                                    {% else %}
+                                        <span class="text-muted">No completed quizzes</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Completion Rate:</strong></td>
+                                <td>
+                                    {% if stat.attempts > 0 %}
+                                        {{ (stat.completed / stat.attempts * 100)|round(1) }}%
+                                    {% else %}
+                                        0%
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="{{ url_for('admin.results', user_id=stat.user.id) }}" class="btn btn-primary">
+                    <i class="fas fa-chart-bar me-2"></i>View Quiz Results
+                </a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-2"></i>Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Simple search functionality
+document.getElementById('user-search').addEventListener('input', function() {
+    const searchTerm = this.value.toLowerCase();
+    const tableRows = document.querySelectorAll('#users-table tbody tr');
+    
+    tableRows.forEach(row => {
+        const username = row.querySelector('h6').textContent.toLowerCase();
+        const email = row.querySelector('small').textContent.toLowerCase();
+        
+        if (username.includes(searchTerm) || email.includes(searchTerm)) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+});
+</script>
+{% endblock %}

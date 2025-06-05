@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+
+{% block title %}Quiz History - Quiz System{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>
+                    <i class="fas fa-history text-primary me-2"></i>
+                    Quiz History
+                </h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{{ url_for('quiz.dashboard') }}">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item active">History</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    {% if attempts %}
+        <div class="row">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Quiz</th>
+                                        <th>Score</th>
+                                        <th>Percentage</th>
+                                        <th>Duration</th>
+                                        <th>Completed</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for attempt in attempts %}
+                                        {% set total_points = attempt.quiz.get_total_points() %}
+                                        {% set percentage = (attempt.score / total_points * 100) if total_points > 0 else 0 %}
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div>
+                                                        <h6 class="mb-1">{{ attempt.quiz.title }}</h6>
+                                                        <small class="text-muted">{{ attempt.quiz.description or 'No description' }}</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <strong>{{ attempt.score }}</strong> / {{ total_points }}
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="badge bg-{% if percentage >= 70 %}success{% elif percentage >= 50 %}warning{% else %}danger{% endif %} me-2">
+                                                        {{ percentage|round(1) }}%
+                                                    </span>
+                                                    <div class="progress flex-grow-1" style="height: 6px; max-width: 100px;">
+                                                        <div class="progress-bar bg-{% if percentage >= 70 %}success{% elif percentage >= 50 %}warning{% else %}danger{% endif %}" 
+                                                             style="width: {{ percentage }}%"></div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <i class="fas fa-clock text-muted me-1"></i>
+                                                {{ attempt.get_duration()|round(1) }} min
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <div class="fw-medium">{{ attempt.end_time.strftime('%b %d, %Y') }}</div>
+                                                    <small class="text-muted">{{ attempt.end_time.strftime('%I:%M %p') }}</small>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="{{ url_for('quiz.quiz_result', attempt_id=attempt.id) }}" 
+                                                       class="btn btn-outline-primary">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    {% if attempt.user.quiz_attempts.filter_by(quiz_id=attempt.quiz_id).count() < attempt.quiz.max_attempts %}
+                                                        <a href="{{ url_for('quiz.start_quiz', quiz_id=attempt.quiz_id) }}" 
+                                                           class="btn btn-outline-success">
+                                                            <i class="fas fa-redo"></i>
+                                                        </a>
+                                                    {% endif %}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Summary -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">
+                            <i class="fas fa-chart-bar text-primary me-2"></i>
+                            Performance Summary
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-4">
+                            <div class="col-md-3">
+                                <div class="stat-card text-center">
+                                    <div class="stat-icon mb-2">
+                                        <i class="fas fa-play-circle fa-2x text-primary"></i>
+                                    </div>
+                                    <h4 class="stat-number">{{ attempts|length }}</h4>
+                                    <p class="stat-label text-muted mb-0">Total Attempts</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-card text-center">
+                                    <div class="stat-icon mb-2">
+                                        <i class="fas fa-chart-line fa-2x text-success"></i>
+                                    </div>
+                                    <h4 class="stat-number">
+                                        {{ ((attempts|sum(attribute='score') / attempts|sum(attribute='quiz.get_total_points') * 100) if attempts else 0)|round(1) }}%
+                                    </h4>
+                                    <p class="stat-label text-muted mb-0">Average Score</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-card text-center">
+                                    <div class="stat-icon mb-2">
+                                        <i class="fas fa-trophy fa-2x text-warning"></i>
+                                    </div>
+                                    <h4 class="stat-number">
+                                        {{ attempts|selectattr('score')|map(attribute='score')|max if attempts else 0 }}
+                                    </h4>
+                                    <p class="stat-label text-muted mb-0">Best Score</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-card text-center">
+                                    <div class="stat-icon mb-2">
+                                        <i class="fas fa-clock fa-2x text-info"></i>
+                                    </div>
+                                    <h4 class="stat-number">
+                                        {{ (attempts|sum(attribute='get_duration') / attempts|length if attempts else 0)|round(1) }}
+                                    </h4>
+                                    <p class="stat-label text-muted mb-0">Avg Duration (min)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% else %}
+        <div class="row">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center py-5">
+                        <i class="fas fa-history fa-4x text-muted mb-4"></i>
+                        <h4 class="text-muted mb-3">No Quiz History</h4>
+                        <p class="text-muted mb-4">
+                            You haven't completed any quizzes yet. 
+                            Start taking quizzes to see your history here.
+                        </p>
+                        <a href="{{ url_for('quiz.quiz_list') }}" class="btn btn-primary">
+                            <i class="fas fa-play me-2"></i>Take Your First Quiz
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

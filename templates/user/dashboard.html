@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Quiz System{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>
+                    <i class="fas fa-tachometer-alt text-primary me-2"></i>
+                    Welcome, {{ current_user.username }}!
+                </h2>
+                <div class="text-muted">
+                    <i class="fas fa-calendar me-1"></i>
+                    {{ now.strftime('%B %d, %Y') }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card stat-card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="stat-icon mb-2">
+                        <i class="fas fa-play-circle fa-2x text-primary"></i>
+                    </div>
+                    <h3 class="stat-number">{{ total_attempts }}</h3>
+                    <p class="stat-label text-muted mb-0">Total Attempts</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card stat-card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="stat-icon mb-2">
+                        <i class="fas fa-check-circle fa-2x text-success"></i>
+                    </div>
+                    <h3 class="stat-number">{{ completed_attempts }}</h3>
+                    <p class="stat-label text-muted mb-0">Completed</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card stat-card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="stat-icon mb-2">
+                        <i class="fas fa-chart-line fa-2x text-info"></i>
+                    </div>
+                    <h3 class="stat-number">{{ avg_score }}%</h3>
+                    <p class="stat-label text-muted mb-0">Average Score</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card stat-card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="stat-icon mb-2">
+                        <i class="fas fa-trophy fa-2x text-warning"></i>
+                    </div>
+                    <h3 class="stat-number">{{ quiz_data|length }}</h3>
+                    <p class="stat-label text-muted mb-0">Available Quizzes</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Available Quizzes -->
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-list-alt text-primary me-2"></i>
+                        Available Quizzes
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if quiz_data %}
+                        <div class="row g-3">
+                            {% for data in quiz_data %}
+                                <div class="col-md-6">
+                                    <div class="quiz-card h-100">
+                                        <div class="card border-0 shadow-sm h-100">
+                                            <div class="card-body">
+                                                <h6 class="card-title">{{ data.quiz.title }}</h6>
+                                                <p class="card-text text-muted small">{{ data.quiz.description or 'No description available' }}</p>
+                                                
+                                                <div class="quiz-meta mb-3">
+                                                    <div class="d-flex justify-content-between text-muted small">
+                                                        <span>
+                                                            <i class="fas fa-clock me-1"></i>
+                                                            {{ data.quiz.time_limit }} min
+                                                        </span>
+                                                        <span>
+                                                            <i class="fas fa-redo me-1"></i>
+                                                            {{ data.attempts_taken }}/{{ data.quiz.max_attempts }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                
+                                                {% if data.can_attempt %}
+                                                    <a href="{{ url_for('quiz.start_quiz', quiz_id=data.quiz.id) }}" 
+                                                       class="btn btn-primary btn-sm w-100">
+                                                        <i class="fas fa-play me-1"></i>Start Quiz
+                                                    </a>
+                                                {% else %}
+                                                    <button class="btn btn-secondary btn-sm w-100" disabled>
+                                                        <i class="fas fa-ban me-1"></i>Max Attempts Reached
+                                                    </button>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="text-center mt-3">
+                            <a href="{{ url_for('quiz.quiz_list') }}" class="btn btn-outline-primary">
+                                <i class="fas fa-eye me-1"></i>View All Quizzes
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                            <h6 class="text-muted">No quizzes available</h6>
+                            <p class="text-muted small mb-0">Check back later for new quizzes!</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-history text-primary me-2"></i>
+                        Recent Activity
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_attempts %}
+                        <div class="activity-list">
+                            {% for attempt in recent_attempts %}
+                                <div class="activity-item mb-3 pb-3 border-bottom">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1">{{ attempt.quiz.title }}</h6>
+                                            <div class="text-muted small">
+                                                <div class="mb-1">
+                                                    <i class="fas fa-chart-bar me-1"></i>
+                                                    Score: {{ attempt.score }}/{{ attempt.quiz.get_total_points() }}
+                                                    <span class="badge bg-{% if (attempt.score / attempt.quiz.get_total_points() * 100) >= 70 %}success{% elif (attempt.score / attempt.quiz.get_total_points() * 100) >= 50 %}warning{% else %}danger{% endif %} ms-1">
+                                                        {{ ((attempt.score / attempt.quiz.get_total_points() * 100) if attempt.quiz.get_total_points() > 0 else 0)|round(1) }}%
+                                                    </span>
+                                                </div>
+                                                <div>
+                                                    <i class="fas fa-calendar me-1"></i>
+                                                    {{ attempt.end_time.strftime('%b %d, %Y') }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a href="{{ url_for('quiz.quiz_result', attempt_id=attempt.id) }}" 
+                                           class="btn btn-outline-primary btn-sm">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="text-center">
+                            <a href="{{ url_for('quiz.history') }}" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-history me-1"></i>View All History
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-clock fa-2x text-muted mb-2"></i>
+                            <p class="text-muted small mb-0">No recent activity</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

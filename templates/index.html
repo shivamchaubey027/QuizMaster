@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome - Quiz System{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <div class="row align-items-center min-vh-100">
+            <div class="col-lg-6">
+                <div class="hero-content">
+                    <h1 class="display-4 fw-bold text-primary mb-4">
+                        Welcome to Quiz System
+                    </h1>
+                    <p class="lead text-muted mb-4">
+                        Test your knowledge with our comprehensive quiz platform. 
+                        Create, take, and track quizzes with ease.
+                    </p>
+                    
+                    <div class="hero-features mb-4">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="feature-item">
+                                    <i class="fas fa-clock text-primary me-2"></i>
+                                    <span>Timed Quizzes</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="feature-item">
+                                    <i class="fas fa-chart-line text-primary me-2"></i>
+                                    <span>Progress Tracking</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="feature-item">
+                                    <i class="fas fa-users text-primary me-2"></i>
+                                    <span>User Management</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="feature-item">
+                                    <i class="fas fa-mobile-alt text-primary me-2"></i>
+                                    <span>Mobile Friendly</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-actions">
+                        <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg me-3">
+                            <i class="fas fa-user-plus me-2"></i>Get Started
+                        </a>
+                        <a href="{{ url_for('auth.login') }}" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-sign-in-alt me-2"></i>Login
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="hero-image text-center">
+                    <div class="quiz-preview-card">
+                        <div class="card shadow-lg border-0">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-question-circle me-2"></i>
+                                    Sample Quiz
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="quiz-question mb-3">
+                                    <h6>Question 1 of 5</h6>
+                                    <p class="mb-3">What is the capital of France?</p>
+                                    <div class="quiz-options">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="radio" name="demo" disabled>
+                                            <label class="form-check-label">Paris</label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="radio" name="demo" disabled>
+                                            <label class="form-check-label">London</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="demo" disabled>
+                                            <label class="form-check-label">Berlin</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="timer-demo">
+                                        <i class="fas fa-clock text-warning me-1"></i>
+                                        <span class="text-muted">15:30</span>
+                                    </div>
+                                    <div class="progress-demo" style="width: 100px;">
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: 20%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-lg-6 mx-auto">
+                <h2 class="display-6 fw-bold">Why Choose Our Quiz System?</h2>
+                <p class="text-muted">Powerful features designed for both educators and learners</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card border-0 h-100 text-center">
+                    <div class="card-body">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-bolt fa-3x text-primary"></i>
+                        </div>
+                        <h5 class="card-title">Fast & Reliable</h5>
+                        <p class="card-text text-muted">
+                            Lightning-fast performance with auto-save functionality
+                            to ensure no progress is lost.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card border-0 h-100 text-center">
+                    <div class="card-body">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-shield-alt fa-3x text-primary"></i>
+                        </div>
+                        <h5 class="card-title">Secure</h5>
+                        <p class="card-text text-muted">
+                            Built with security best practices including encrypted
+                            passwords and CSRF protection.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card border-0 h-100 text-center">
+                    <div class="card-body">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-cogs fa-3x text-primary"></i>
+                        </div>
+                        <h5 class="card-title">Easy to Use</h5>
+                        <p class="card-text text-muted">
+                            Intuitive interface that makes creating and taking
+                            quizzes a breeze for everyone.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
