@@ -54,15 +54,15 @@ def main():
     try:
         from app import app
         
-        print("✅ Dependencies loaded successfully")
-        print("✅ Database initialized")
-        print("✅ Default admin user created (if not exists)")
-        print("\n📊 Default Login Credentials:")
-        print("   Admin: admin / admin123")
-        print("\n🌐 Application will be available at:")
+        print("Dependencies loaded successfully")
+        print(" Database initialized")
+        print(" Default admin user created (if not exists)")
+        print("\n Default Login Credentials:")
+        
+        print("\n Application will be available at:")
         print("   http://localhost:5000")
         print("   http://127.0.0.1:5000")
-        print("\n💡 Press Ctrl+C to stop the server")
+        print("\n Press Ctrl+C to stop the server")
         print("=" * 50)
         
         # Run the application
