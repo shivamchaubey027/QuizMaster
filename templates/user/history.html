@@ -83,7 +83,7 @@
                                                        class="btn btn-outline-primary">
                                                         <i class="fas fa-eye"></i>
                                                     </a>
-                                                    {% if attempt.user.quiz_attempts.filter_by(quiz_id=attempt.quiz_id).count() < attempt.quiz.max_attempts %}
+                                                    {% if current_user.quiz_attempts|selectattr('quiz_id', 'equalto', attempt.quiz_id)|list|length < attempt.quiz.max_attempts %}
                                                         <a href="{{ url_for('quiz.start_quiz', quiz_id=attempt.quiz_id) }}" 
                                                            class="btn btn-outline-success">
                                                             <i class="fas fa-redo"></i>

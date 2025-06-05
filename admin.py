@@ -111,9 +111,12 @@ def create_quiz():
                 # Process answer options
                 if question_type in ['multiple_choice', 'true_false']:
                     option_count = int(request.form.get(f'question_{i}_option_count', 0))
+                    correct_option_index = request.form.get(f'question_{i}_correct')
+                    
                     for j in range(option_count):
                         option_text = request.form.get(f'question_{i}_option_{j}_text')
-                        is_correct = bool(request.form.get(f'question_{i}_option_{j}_correct'))
+                        # Check if this option is the correct one
+                        is_correct = (correct_option_index is not None and int(correct_option_index) == j)
                         
                         if option_text:
                             option = AnswerOption(

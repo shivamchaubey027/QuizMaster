@@ -126,10 +126,11 @@
                                             {% if result.question.question_type in ['multiple_choice', 'true_false'] %}
                                                 <div class="options-review">
                                                     {% for option in result.question.answer_options %}
-                                                        <div class="option-item mb-2 p-2 rounded
-                                                            {% if option.is_correct %}bg-success bg-opacity-10 border-success
-                                                            {% elif result.user_answer and result.user_answer.selected_option_id == option.id %}bg-danger bg-opacity-10 border-danger
-                                                            {% else %}bg-light{% endif %}">
+                                                        <div class="option-result mb-2 
+                                                            {% if option.is_correct and result.user_answer and result.user_answer.selected_option_id == option.id %}correct-answer user-selected
+                                                            {% elif option.is_correct %}correct-answer
+                                                            {% elif result.user_answer and result.user_answer.selected_option_id == option.id %}incorrect-selected
+                                                            {% else %}{% endif %}">
                                                             <div class="d-flex align-items-center">
                                                                 <span class="me-2">
                                                                     {% if option.is_correct %}
@@ -142,9 +143,9 @@
                                                                 </span>
                                                                 <span class="flex-grow-1">{{ option.option_text }}</span>
                                                                 {% if option.is_correct %}
-                                                                    <span class="badge bg-success">Correct</span>
+                                                                    <span class="badge bg-success">Correct Answer</span>
                                                                 {% elif result.user_answer and result.user_answer.selected_option_id == option.id %}
-                                                                    <span class="badge bg-danger">Your Answer</span>
+                                                                    <span class="badge bg-danger">Your Choice</span>
                                                                 {% endif %}
                                                             </div>
                                                         </div>

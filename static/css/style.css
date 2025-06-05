@@ -556,6 +556,117 @@ body {
     background: linear-gradient(135deg, hsl(var(--primary-color)), hsl(var(--info-color))) !important;
 }
 
+/* Modal Styling Fixes */
+.modal-content {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+    border: 1px solid #dee2e6;
+    border-radius: 0.75rem;
+}
+
+.modal-header {
+    background-color: #f8f9fa !important;
+    color: #212529 !important;
+    border-bottom: 1px solid #dee2e6;
+    border-radius: 0.75rem 0.75rem 0 0;
+}
+
+.modal-title {
+    color: #212529 !important;
+    font-weight: 600;
+}
+
+.modal-body {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+}
+
+.modal-body p {
+    color: #212529 !important;
+    margin-bottom: 1rem;
+}
+
+.modal-footer {
+    background-color: #f8f9fa !important;
+    border-top: 1px solid #dee2e6;
+    border-radius: 0 0 0.75rem 0.75rem;
+}
+
+.alert-info {
+    background-color: #d1ecf1 !important;
+    border-color: #bee5eb !important;
+    color: #0c5460 !important;
+}
+
+/* Override dark mode for modals */
+@media (prefers-color-scheme: dark) {
+    .modal-content {
+        background-color: #ffffff !important;
+        color: #212529 !important;
+    }
+    
+    .modal-header,
+    .modal-footer {
+        background-color: #f8f9fa !important;
+        color: #212529 !important;
+    }
+    
+    .modal-body {
+        background-color: #ffffff !important;
+        color: #212529 !important;
+    }
+    
+    .modal-title,
+    .modal-body p {
+        color: #212529 !important;
+    }
+}
+
+/* Question Results Styling */
+.question-result {
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: #ffffff;
+}
+
+.question-result.correct {
+    border-color: #28a745;
+    background-color: #f8fff8;
+}
+
+.question-result.incorrect {
+    border-color: #dc3545;
+    background-color: #fff8f8;
+}
+
+.option-result {
+    padding: 0.5rem;
+    margin: 0.25rem 0;
+    border-radius: 0.25rem;
+    border: 1px solid #dee2e6;
+    background-color: #ffffff;
+}
+
+.option-result.correct-answer {
+    background-color: #d4edda !important;
+    border-color: #28a745 !important;
+    color: #155724 !important;
+}
+
+.option-result.user-selected {
+    background-color: #cce5ff !important;
+    border-color: #007bff !important;
+    color: #004085 !important;
+}
+
+.option-result.incorrect-selected {
+    background-color: #f8d7da !important;
+    border-color: #dc3545 !important;
+    color: #721c24 !important;
+}
+
 /* Scrollbar Styling */
 ::-webkit-scrollbar {
     width: 8px;
