@@ -12,9 +12,8 @@ A comprehensive web-based quiz management system built with Flask. Features incl
 - **Mobile Responsive**: Works seamlessly on all devices
 - **Modern UI**: Clean, professional interface with animations
 
-## Screenshots
 
-The system includes:
+## The system includes:
 - Beautiful landing page with gradient design
 - Intuitive quiz builder for admins
 - Real-time quiz interface with progress tracking
@@ -74,14 +73,9 @@ The database will be automatically created when you first run the application.
 ### 6. Run the Application
 
 ```bash
-python app.py
+python run_local.py
 ```
 
-Or alternatively:
-
-```bash
-flask run --host=0.0.0.0 --port=5000
-```
 
 ### 7. Access the Application
 
@@ -89,31 +83,6 @@ Open your web browser and navigate to:
 - **Application**: http://localhost:5000
 - **Admin Login**: Username: `admin`, Password: `admin123`
 
-## Project Structure
-
-```
-quiz-system/
-├── app.py                 # Main application file
-├── models.py             # Database models
-├── auth.py               # Authentication routes
-├── admin.py              # Admin routes
-├── quiz.py               # Quiz routes
-├── utils.py              # Utility functions
-├── config.py             # Configuration settings
-├── requirements.txt      # Python dependencies
-├── static/
-│   ├── css/
-│   │   └── style.css     # Custom styles
-│   └── js/
-│       ├── admin.js      # Admin functionality
-│       └── quiz.js       # Quiz functionality
-└── templates/
-    ├── base.html         # Base template
-    ├── index.html        # Landing page
-    ├── auth/             # Authentication templates
-    ├── admin/            # Admin templates
-    └── user/             # User templates
-```
 
 ## Default Accounts
 
