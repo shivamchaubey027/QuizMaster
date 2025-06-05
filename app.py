@@ -3,19 +3,13 @@ import logging
 from datetime import datetime
 
 from flask import Flask, render_template, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user
 from flask_wtf.csrf import CSRFProtect
-from sqlalchemy.orm import DeclarativeBase
 from werkzeug.middleware.proxy_fix import ProxyFix
+from database import db  # Import the db instance from database.py
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
-
-class Base(DeclarativeBase):
-    pass
-
-db = SQLAlchemy(model_class=Base)
 
 # Create the app
 app = Flask(__name__)
@@ -75,7 +69,6 @@ def inject_csrf_token():
     from flask_wtf.csrf import generate_csrf
     return dict(csrf_token=generate_csrf())
 
-# Initialize database only when not imported
 def init_db():
     with app.app_context():
         # Import models to ensure they're registered
@@ -98,10 +91,8 @@ def init_db():
             db.session.commit()
             print("Default admin user created: admin/admin123")
 
-# Only initialize DB when running directly
 if __name__ == '__main__':
     init_db()
     app.run(host='0.0.0.0', port=5000, debug=True)
 else:
-    # Initialize DB when imported (for Vercel)
     init_db()
