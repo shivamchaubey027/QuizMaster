@@ -5,6 +5,7 @@ from datetime import datetime
 from flask import Flask, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user
+from flask_wtf.csrf import CSRFProtect
 from sqlalchemy.orm import DeclarativeBase
 from werkzeug.middleware.proxy_fix import ProxyFix
 
@@ -31,6 +32,7 @@ app.config["WTF_CSRF_ENABLED"] = True
 
 # Initialize extensions
 db.init_app(app)
+csrf = CSRFProtect(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'auth.login'
@@ -63,6 +65,11 @@ def index():
 @app.context_processor
 def inject_now():
     return {'now': datetime.utcnow()}
+
+@app.context_processor
+def inject_csrf_token():
+    from flask_wtf.csrf import generate_csrf
+    return dict(csrf_token=generate_csrf)
 
 with app.app_context():
     # Import models to ensure they're registered
