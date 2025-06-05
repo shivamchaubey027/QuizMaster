@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
 """
 Local development server runner for Quiz Management System
-This script sets up the environment and starts the Flask development server
 """
 
 import os
 import sys
-from pathlib import Path
 
 def setup_environment():
     """Set up environment variables for local development"""
@@ -55,15 +53,20 @@ def main():
         from app import app
         
         print("Dependencies loaded successfully")
-        print(" Database initialized")
-        print(" Default admin user created (if not exists)")
-        print("\n Default Login Credentials:")
-        
-        print("\n Application will be available at:")
+        print("Database initialized")
+        print("Default admin user created (if not exists)")
+        print("\nDefault Login Credentials:")
+        print("Username: admin")
+        print("Password: admin123")
+        print("\nApplication will be available at:")
         print("   http://localhost:5000")
         print("   http://127.0.0.1:5000")
-        print("\n Press Ctrl+C to stop the server")
+        print("\nPress Ctrl+C to stop the server")
         print("=" * 50)
+        
+        # Initialize database
+        from app import init_db
+        init_db()
         
         # Run the application
         app.run(

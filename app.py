@@ -75,26 +75,33 @@ def inject_csrf_token():
     from flask_wtf.csrf import generate_csrf
     return dict(csrf_token=generate_csrf())
 
-with app.app_context():
-    # Import models to ensure they're registered
-    import models
-    db.create_all()
-    
-    # Create default admin user if none exists
-    from models import User
-    from werkzeug.security import generate_password_hash
-    
-    admin_user = User.query.filter_by(is_admin=True).first()
-    if not admin_user:
-        admin = User(
-            username='admin',
-            email='admin@quiz.com',
-            password_hash=generate_password_hash('admin123'),
-            is_admin=True
-        )
-        db.session.add(admin)
-        db.session.commit()
-        print("Default admin user created: admin/admin123")
+# Initialize database only when not imported
+def init_db():
+    with app.app_context():
+        # Import models to ensure they're registered
+        import models
+        db.create_all()
+        
+        # Create default admin user if none exists
+        from models import User
+        from werkzeug.security import generate_password_hash
+        
+        admin_user = User.query.filter_by(is_admin=True).first()
+        if not admin_user:
+            admin = User(
+                username='admin',
+                email='admin@quiz.com',
+                password_hash=generate_password_hash('admin123'),
+                is_admin=True
+            )
+            db.session.add(admin)
+            db.session.commit()
+            print("Default admin user created: admin/admin123")
 
+# Only initialize DB when running directly
 if __name__ == '__main__':
+    init_db()
     app.run(host='0.0.0.0', port=5000, debug=True)
+else:
+    # Initialize DB when imported (for Vercel)
+    init_db()
