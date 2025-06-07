@@ -187,22 +187,40 @@
                                     <div class="stat-summary">
                                         <h6 class="text-muted">Average Score</h6>
                                         <h4 class="text-success">
-                                            {{ ((attempts|sum(attribute='score') / attempts|sum(attribute='quiz.get_total_points') * 100) if attempts else 0)|round(1) }}%
-                                        </h4>
+                                            {% set avg_score = 0 %}
+                                            {% if attempts %}
+                                                {% set total_score = attempts|sum(attribute='score') %}
+                                                {% set total_possible = 0 %}
+                                                {% for attempt in attempts %}
+                                                    {% set total_possible = total_possible + attempt.quiz.get_total_points() %}
+                                                {% endfor %}
+                                                {% if total_possible > 0 %}
+                                                    {% set avg_score = (total_score / total_possible * 100)|round(1) %}
+                                                {% endif %}
+                                            {% endif %}
+                                            {{ avg_score }}%
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="stat-summary">
                                         <h6 class="text-muted">Avg Duration</h6>
                                         <h4 class="text-info">
-                                            {{ (attempts|sum(attribute='get_duration') / attempts|length if attempts else 0)|round(1) }} min
+                                            {% set avg_duration = 0 %}
+                                            {% if attempts and attempts|length > 0 %}
+                                                {% set total_duration = 0 %}
+                                                {% for attempt in attempts %}
+                                                    {% set total_duration = total_duration + attempt.get_duration() %}
+                                                {% endfor %}
+                                                {% set avg_duration = (total_duration / attempts|length)|round(1) %}
+                                            {% endif %}
+                                            {{ avg_duration }} min
                                         </h4>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="stat-summary">
                                         <h6 class="text-muted">Pass Rate (≥70%)</h6>
-                                        {% set passed = attempts|selectattr('score')|select('>=', 0.7 * attempts[0].quiz.get_total_points() if attempts else 0)|list %}
+                                        {% set passed = attempts|selectattr('score', '>=', 0.7 * (attempts[0].total_points if attempts else 0))|list %}
                                         <h4 class="text-warning">
                                             {{ ((passed|length / attempts|length * 100) if attempts else 0)|round(1) }}%
                                         </h4>
@@ -264,13 +282,13 @@
                 <div class="row mb-3">
                     <div class="col-md-3">
                         <div class="text-center">
-                            <h5 class="text-primary">{{ attempt.score }}/{{ attempt.quiz.get_total_points() }}</h5>
+                            <h5 class="text-primary">{{ attempt.score }}/{{ attempt.total_points }}</h5>
                             <small class="text-muted">Score</small>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="text-center">
-                            {% set percentage = (attempt.score / attempt.quiz.get_total_points() * 100) if attempt.quiz.get_total_points() > 0 else 0 %}
+                            {% set percentage = (attempt.score / attempt.total_points * 100) if attempt.total_points > 0 else 0 %}
                             <h5 class="text-{% if percentage >= 70 %}success{% elif percentage >= 50 %}warning{% else %}danger{% endif %}">
                                 {{ percentage|round(1) }}%
                             </h5>

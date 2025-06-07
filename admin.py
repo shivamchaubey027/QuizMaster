@@ -215,6 +215,10 @@ def results():
     attempts = query.order_by(QuizAttempt.end_time.desc()).all()
     quizzes = Quiz.query.all()
     users = User.query.filter_by(is_admin=False).all()
+
+    # Add total_points attribute to each attempt for Jinja compatibility
+    for attempt in attempts:
+        attempt.total_points = attempt.quiz.get_total_points()
     
     return render_template('admin/results.html', 
                          attempts=attempts, 
