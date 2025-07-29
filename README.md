@@ -26,62 +26,22 @@ A comprehensive web-based quiz management system built with Flask. Features incl
 - pip (Python package installer)
 - Virtual environment (recommended)
 
-## Local Setup Instructions
+## How to Run
 
-### 1. Clone or Download the Project
+### With Docker (Recommended)
 
-If you have the project files, place them in a directory called `quiz-system`.
+1.  **Build the Docker image:**
+    ```bash
+    docker build -t quiz-master .
+    ```
 
-### 2. Create Virtual Environment
+2.  **Run the Docker container:**
+    ```bash
+    docker run -p 5000:5000 quiz-master
+    ```
 
-```bash
-# Navigate to project directory
-cd quiz-system
-
-# Create virtual environment
-python -m venv venv
-
-# Activate virtual environment
-# On Windows:
-venv\Scripts\activate
-# On macOS/Linux:
-source venv/bin/activate
-```
-
-### 3. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 4. Set Environment Variables (Optional)
-
-Create a `.env` file in the project root:
-
-```bash
-# .env file
-SESSION_SECRET=your-secret-key-here
-DATABASE_URL=sqlite:///quiz_system.db
-FLASK_ENV=development
-FLASK_DEBUG=True
-```
-
-### 5. Initialize Database
-
-The database will be automatically created when you first run the application.
-
-### 6. Run the Application
-
-```bash
-python run_local.py
-```
-
-
-### 7. Access the Application
-
-Open your web browser and navigate to:
-- **Application**: http://localhost:5000
-- **Admin Login**: Username: `admin`, Password: `admin123`
+3.  **Access the application:**
+    Open your web browser and go to `http://localhost:5000`.
 
 
 ## Default Accounts
